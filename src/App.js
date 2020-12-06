@@ -11,7 +11,7 @@ function App() {
       <Router>
          <Navbar/>
         <div className="container-fluid h-100 bg-secondary">
-            <div className="row">
+            <div className="row h-100">
                 <div className="col-sm-4">
                     Note List goes here
                 </div>

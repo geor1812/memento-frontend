@@ -5,10 +5,11 @@ class Note extends Component {
     constructor(props) {
         super(props);
         this.onChangeTitle = this.onChangeTitle.bind(this);
+        this.onChangeContent = this.onChangeContent.bind(this);
         this.state = {
             id : null,
             title: "Title Goes Here",
-            content: "",
+            content: "This is an example of some note context",
             createdAt: "06-12-2020",
             updatedAt: "06-12-2020"
         }
@@ -21,15 +22,26 @@ class Note extends Component {
         })
     }
 
+    onChangeContent(e) {
+        let newContent = e.target.value;
+        this.setState({
+            content: newContent
+        })
+    }
+
     render() {
         return(
-            <div className="container">
+            <div className="container mt-3" style={{
+                borderStyle: "solid",
+                borderColor: "#000000",
+                borderRadius: "25px",
+            }}>
                 <div className="row mt-3">
                     <div className="col-md-12">
                         <form className="form">
                             <div className="form-group mb-2">
                                 <label htmlFor="title" className="sr-only">Title</label>
-                                <input type="text" className="form-control-plaintext bg-danger text-white text-center" id="title" value={this.state.title} onChange={this.onChangeTitle} required/>
+                                <textarea className="form-control-plaintext bg-danger text-light text-center" id="title" rows="1" onChange={this.onChangeTitle} required>{this.state.title}</textarea>
                             </div>
                             <div className="container">
                                     <div className="row">
@@ -46,6 +58,16 @@ class Note extends Component {
                 </div>
                 <div className="row">
                     <div className="col-md-12">
+                        <form>
+                            <div className="form-group">
+                                <label htmlFor="content" className="sr-only">Content</label>
+                                <textarea className="form-control bg-dark text-light" style={{
+                                    borderStyle: "solid",
+                                    borderColor: "#000000",
+                                    borderWidth: "2px"
+                                }} id="content" rows="20" onChange={this.onChangeContent}>{this.state.content}</textarea>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
