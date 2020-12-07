@@ -6,13 +6,44 @@ class Note extends Component {
         super(props);
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeContent = this.onChangeContent.bind(this);
+        this.getNote = this.getNote.bind(this);
+
         this.state = {
-            id : null,
-            title: "Title Goes Here",
-            content: "This is an example of some note context",
-            createdAt: "06-12-2020",
-            updatedAt: "06-12-2020"
+            id : -1,
+            title: "",
+            content: "",
+            createdAt: "",
+            updatedAt: "",
+            active: false,
         }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.noteData) {
+            if((!prevProps.noteData && this.props.noteData) || prevProps.noteData.id !== this.props.noteData.id) {
+                this.getNote(this.props.noteData.id);
+                console.log("Change");
+            }
+        }
+    }
+
+    getNote(id) {
+        NoteService
+            .getById(id)
+            .then((response)=> {
+                this.setState({
+                    id: response.data.id,
+                    title: response.data.title,
+                    content: response.data.content,
+                    createdAt: response.data.createdAt.slice(0,10),
+                    updatedAt: response.data.updatedAt.slice(0,10)
+                })
+                console.log("Loaded note: ")
+                console.log(response)
+            })
+            .catch(e=>{
+                console.log(e);
+            });
     }
 
     onChangeTitle(e) {
@@ -31,7 +62,7 @@ class Note extends Component {
 
     render() {
         return(
-            <div className="container mt-3" style={{
+            <div className="container my-3" style={{
                 borderStyle: "solid",
                 borderColor: "#000000",
                 borderRadius: "10px",
@@ -51,15 +82,17 @@ class Note extends Component {
                                               borderStyle: "inset",
                                               borderColor: "#000000",
                                               borderWidth: "1px",
-                                          }} onChange={this.onChangeTitle} required>{this.state.title}</textarea>
+                                          }} onChange={this.onChangeTitle} value={this.state.title} required/>
                             </div>
                             <div className="container">
                                     <div className="row">
                                         <div className="col-sm text-light">
-                                            <p>Created on: <p className="font-italic">{this.state.createdAt}</p></p>
+                                            <p>Created on: </p>
+                                            <i>{this.state.createdAt}</i>
                                         </div>
                                         <div className="col-sm text-light">
-                                            <p>Last modified on: <p className="font-italic">{this.state.updatedAt}</p></p>
+                                            <p>Last modified on: </p>
+                                            <i>{this.state.updatedAt}</i>
                                         </div>
                                     </div>
                             </div>
@@ -76,7 +109,7 @@ class Note extends Component {
                                     borderColor: "#000000",
                                     borderWidth: "2px",
                                     borderRadius: "10px"
-                                }} id="content" rows="20" onChange={this.onChangeContent}>{this.state.content}</textarea>
+                                }} id="content" rows="19" onChange={this.onChangeContent} value={this.state.content}/>
                             </div>
                         </form>
                     </div>
