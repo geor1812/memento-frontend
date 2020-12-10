@@ -1,22 +1,35 @@
 import React, { Component } from "react";
+
 import NoteService from "../service/NoteService";
-import { Link } from "react-router-dom";
+import CreateModal from "./modals/CreateModal";
 import Note from "./Note";
 
 class NoteList extends Component {
     constructor(props) {
         super(props);
         this.getNotes = this.getNotes.bind(this);
+        this.showCreateModal = this.showCreateModal.bind(this);
+        this.closeCreateModal = this.closeCreateModal.bind(this);
+
         this.state = {
             notes:  [],
             currentNote: null,
-            currentIndex: -1
+            currentIndex: -1,
+            showCreateModal: false
         }
     }
 
     componentDidMount() {
         this.getNotes();
     }
+
+    showCreateModal() {
+        this.setState({showCreateModal: true})
+    };
+
+    closeCreateModal() {
+        this.setState({showCreateModal: false})
+    };
 
     getNotes() {
         NoteService
@@ -40,25 +53,23 @@ class NoteList extends Component {
     }
 
     render() {
-
         return(
             <div className="container-fluid h-100 bg-secondary">
                 <div className="row h-100">
                     <div className="col-sm-4 h-100">
-                        <div className="container py-sm-2 h-100 my-3 overflow-auto " style={{
+                        <div className="container bg-dark py-sm-2 h-100 my-3 overflow-auto " style={{
                             borderStyle: "solid",
                             borderColor: "#000000",
                             borderRadius: "10px",
                         }}>
+                            <CreateModal close={this.closeCreateModal} show={this.state.showCreateModal}/>
                             <ul className="list-group">
+                                <button type="button" className="btn btn-lg btn-info btn-block" onClick={this.showCreateModal}>+</button>
                                 {this.state.notes.map((note, index) => (
-                                    <li className={"list-group-item text-light" + (index === this.state.currentIndex ? " bg-dark" : " bg-secondary")}
-                                        key={index}
-                                        style={{borderStyle: "solid", borderRadius: "10px",
-                                            borderWidth: "1px", borderColor: "#202020"}}
-                                        onClick={() => this.setActiveNote(note, index)}>
+                                    <button type="button" className="btn btn-secondary btn-lg btn-block"
+                                            onClick={() => this.setActiveNote(note, index)}>
                                         {note.title}
-                                    </li>
+                                    </button>
                                 ))}
                             </ul>
                         </div>
