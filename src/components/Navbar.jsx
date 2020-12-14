@@ -1,11 +1,15 @@
 import {Link} from "react-router-dom";
 import React, {Component} from "react";
+import favicon from "../images/logo.ico"
 
 class Navbar extends Component {
     render() {
         return(
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a className="navbar-brand" href="/notes">Memento</a>
+                <a className="navbar-brand d-inline-flex" href="/notes">
+                    <input type="image" className="img-fluid ml-sm-3" width="50" height="50" src={favicon} alt="responsive logo"/>
+                    <h3 className="mb-0 mt-2">emento</h3>
+                </a>
 
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
