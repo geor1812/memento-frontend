@@ -22,7 +22,7 @@ class Note extends Component {
         if(this.props.noteData) {
             if((!prevProps.noteData && this.props.noteData) || prevProps.noteData.id !== this.props.noteData.id) {
                 this.getNote(this.props.noteData.id);
-                console.log("Change");
+                console.log("Note change");
             }
         }
     }
@@ -46,18 +46,35 @@ class Note extends Component {
             });
     }
 
-    onChangeTitle(e) {
-        let newTitle = e.target.value;
-        this.setState({
-            title: newTitle
-        })
+    updateNote() {
+        let currentNote = {
+            id: this.state.id,
+            title: this.state.title,
+            content: this.state.content,
+            createdAt: this.state.createdAt,
+            updatedAt: this.state.updatedAt
+        }
+
+        NoteService
+            .update(this.state.id, currentNote)
+            .catch((e) => {
+                console.log(e);
+            })
     }
 
-    onChangeContent(e) {
-        let newContent = e.target.value;
-        this.setState({
-            content: newContent
+    async onChangeTitle(e) {
+        await this.setState({
+            title: e.target.value
         })
+        this.updateNote();
+        this.props.titleCallback(this.state.title);
+    }
+
+    async onChangeContent(e) {
+        await this.setState({
+            content: e.target.value
+        })
+        this.updateNote()
     }
 
     render() {

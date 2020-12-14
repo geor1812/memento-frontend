@@ -16,6 +16,7 @@ class NoteList extends Component {
         this.closeDeleteModal = this.closeDeleteModal.bind(this);
         this.showArchiveModal = this.showArchiveModal.bind(this);
         this.closeArchiveModal = this.closeArchiveModal.bind(this);
+        this.titleChangeCallback = this.titleChangeCallback.bind(this);
 
         this.state = {
             notes:  [],
@@ -30,6 +31,7 @@ class NoteList extends Component {
     componentDidMount() {
         this.getNotes();
     }
+
 
     showCreateModal() {
         this.setState({showCreateModal: true})
@@ -54,6 +56,14 @@ class NoteList extends Component {
     closeArchiveModal() {
         this.setState({showArchiveModal: false})
     };
+
+    titleChangeCallback(changedTitle) {
+        let newNotes = this.state.notes;
+        newNotes[this.state.currentIndex].title = changedTitle
+        this.setState({
+            notes: newNotes
+        })
+    }
 
     getNotes() {
         NoteService
@@ -107,7 +117,7 @@ class NoteList extends Component {
                         </div>
                     </div>
                     <div className="col-md-8 h-100">
-                        <Note noteData={this.state.currentNote}/>
+                        <Note titleCallback={this.titleChangeCallback} noteData={this.state.currentNote}/>
                     </div>
                 </div>
             </div>
