@@ -62,56 +62,65 @@ class Note extends Component {
 
     render() {
         return(
-            <div className="container my-3" style={{
+            <div className="container my-3 bg-dark" style={{
                 borderStyle: "solid",
                 borderColor: "#000000",
                 borderRadius: "10px",
             }}>
-                <div className="row m-3 bg-dark p-1" style={{
-                    borderStyle: "solid",
-                    borderColor: "#000000",
-                    borderRadius: "10px",
-                    borderWidth: "2px",
-                }}>
-                    <div className="col-md-12">
-                        <form className="form">
-                            <div className="form-group my-2">
-                                <label htmlFor="title" className="sr-only">Title</label>
-                                <textarea className="form-control-plaintext bg-danger text-light text-center" id="title" rows="1"
-                                          style={{
-                                              borderStyle: "inset",
-                                              borderColor: "#000000",
-                                              borderWidth: "1px",
-                                          }} onChange={this.onChangeTitle} value={this.state.title} required/>
-                            </div>
-                            <div className="container">
+                <div className="container bg-secondary p-sm-3 mt-sm-3">
+                    <div className="row m-3 bg-dark p-1" style={{
+                        borderStyle: "hidden",
+                        borderColor: "#000000",
+                        borderRadius: "10px",
+                        borderWidth: "2px",
+                    }}>
+                        <div className="col-md-12">
+                            <form className="form">
+                                <div className="form-group my-2">
+                                        <label htmlFor="title" className="sr-only">Title</label>
+                                        <textarea className="form-control-plaintext mx-auto w-50 bg-danger text-light text-center" id="title" rows="1"
+                                                  style={{
+                                                      borderStyle: "inset",
+                                                      borderColor: "#000000",
+                                                      borderWidth: "1px",
+                                                  }} onChange={this.onChangeTitle} value={this.state.title} required/>
+                                </div>
+                                <div className="container">
                                     <div className="row">
                                         <div className="col-sm text-light">
-                                            <p>Created on: </p>
+                                            <p className="mb-0">Type:</p>
+                                            <i>--Coming Soon--</i>
+                                        </div>
+                                        <div className="col-sm text-light">
+                                            <p className="mb-0">Created on: </p>
                                             <i>{this.state.createdAt}</i>
                                         </div>
                                         <div className="col-sm text-light">
-                                            <p>Last modified on: </p>
+                                            <p className="mb-0">Last modified on: </p>
                                             <i>{this.state.updatedAt}</i>
                                         </div>
                                     </div>
-                            </div>
-                        </form>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-md-12">
-                        <form>
-                            <div className="form-group">
-                                <label htmlFor="content" className="sr-only">Content</label>
-                                <textarea className="form-control bg-dark text-light" style={{
-                                    borderStyle: "solid",
-                                    borderColor: "#000000",
-                                    borderWidth: "2px",
-                                    borderRadius: "10px"
-                                }} id="content" rows="19" onChange={this.onChangeContent} value={this.state.content}/>
-                            </div>
-                        </form>
+
+                <div className="container bg-secondary p-sm-3 mb-sm-3">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <form>
+                                <div className="form-group">
+                                    <label htmlFor="content" className="sr-only">Content</label>
+                                    <textarea className="form-control bg-dark text-light" style={{
+                                        borderStyle: "solid",
+                                        borderColor: "#000000",
+                                        borderWidth: "2px",
+                                        borderRadius: "10px"
+                                    }} id="content" rows="19" onChange={this.onChangeContent} value={this.state.content ? (this.state.content) : ("")}/>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

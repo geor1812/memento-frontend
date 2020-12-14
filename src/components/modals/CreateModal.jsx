@@ -16,12 +16,16 @@ function CreateModal({show, close}) {
                 </div>
             </form>
         </Modal.Body>
-        <Modal.Footer className="bg-secondary">
-            <Button variant="dark" onClick={close}>
-                Close
+        <Modal.Footer className="bg-secondary text-left">
+            <p className="float-left text-light">Type:</p>
+            <Button variant="danger" className="float-left" onClick={close}>
+                Note
             </Button>
-            <Button variant="info" onClick={close}>
-                Add
+            <Button variant="warning" className="float-left" onClick={close}>
+                Checklist
+            </Button>
+            <Button variant="dark" onClick={close}>
+                Cancel
             </Button>
         </Modal.Footer>
     </Modal>)
