@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 
-function DeleteModal({show, close, title}) {
+function DeleteModal({show, close, handleDelete, title}) {
 
     return (<Modal show={show} onHide={close}>
         <Modal.Header className="bg-secondary" closeButton>
@@ -16,7 +16,7 @@ function DeleteModal({show, close, title}) {
             </form>
         </Modal.Body>
         <Modal.Footer className="bg-secondary">
-            <Button variant="danger" onClick={close}>
+            <Button variant="danger" onClick={handleDelete}>
                 Confirm
             </Button>
             <Button variant="dark" onClick={close}>

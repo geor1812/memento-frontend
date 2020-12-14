@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 
-function CreateModal({show, close}) {
+function CreateModal({show, close, handleCreate}) {
+    const [title, setTitle] = useState("");
 
     return (<Modal show={show} onHide={close}>
         <Modal.Header className="bg-secondary" closeButton>
@@ -12,7 +13,7 @@ function CreateModal({show, close}) {
             <form>
                 <div className="form-group">
                     <label htmlFor="title" className="col-form-label text-light">Title:</label>
-                    <input type="text" className="form-control bg-dark text-light" id="title"/>
+                    <input type="text" className="form-control bg-dark text-light" id="title" value={title} onChange={e => setTitle(e.target.value)} />
                 </div>
             </form>
         </Modal.Body>

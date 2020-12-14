@@ -9,6 +9,7 @@ import ArchiveModal from "./modals/ArchiveModal";
 class NoteList extends Component {
     constructor(props) {
         super(props);
+        this.setActiveNote = this.setActiveNote.bind(this);
         this.getNotes = this.getNotes.bind(this);
         this.showCreateModal = this.showCreateModal.bind(this);
         this.closeCreateModal = this.closeCreateModal.bind(this);
@@ -17,6 +18,9 @@ class NoteList extends Component {
         this.showArchiveModal = this.showArchiveModal.bind(this);
         this.closeArchiveModal = this.closeArchiveModal.bind(this);
         this.titleChangeCallback = this.titleChangeCallback.bind(this);
+        this.refreshList = this.refreshList.bind(this);
+        this.delete = this.delete.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
 
         this.state = {
             notes:  [],
@@ -32,6 +36,41 @@ class NoteList extends Component {
         this.getNotes();
     }
 
+    createNote(title) {
+        let newNote = {
+            id: null,
+            title: title,
+            content: "",
+            createdAt: "",
+            updatedAt: ""
+        }
+
+        NoteService
+            .create(newNote)
+            .catch(e => {
+                console.log(e)
+            });
+    }
+
+    refreshList() {
+        this.getNotes();
+    }
+
+    delete(id) {
+        NoteService
+            .delete(id)
+            .then(() => {
+                this.refreshList();
+            })
+            .catch(e => {
+                console.log(e);
+            })
+    }
+
+    handleDelete() {
+        this.delete(this.state.currentNote.id);
+        this.closeDeleteModal();
+    }
 
     showCreateModal() {
         this.setState({showCreateModal: true})
@@ -96,9 +135,12 @@ class NoteList extends Component {
                             borderColor: "#000000",
                             borderRadius: "10px",
                         }}>
-                            <CreateModal close={this.closeCreateModal} show={this.state.showCreateModal}/>
+                            <CreateModal close={this.closeCreateModal} show={this.state.showCreateModal} handleCreate={this.createNote}/>
                             <ArchiveModal close={this.closeArchiveModal} show={this.state.showArchiveModal} title={this.state.currentNote ? (this.state.currentNote.title) : ("")}/>
-                            <DeleteModal close={this.closeDeleteModal} show={this.state.showDeleteModal} title={this.state.currentNote ? (this.state.currentNote.title) : ("")}/>
+                            <DeleteModal close={this.closeDeleteModal} show={this.state.showDeleteModal}
+                                         title={this.state.currentNote ? (this.state.currentNote.title) : ("")}
+                                         handleDelete={this.handleDelete}
+                            />
                             <ul className="list-group">
                                 <button type="button" className="btn btn-lg btn-info btn-block" onClick={this.showCreateModal}>+</button>
                                 {this.state.notes.map((note, index) => (
