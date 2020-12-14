@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 
-function ArchiveModal({show, close, title}) {
+function ArchiveModal({show, close, handleArchive, title}) {
 
     return (<Modal show={show} onHide={close}>
         <Modal.Header className="bg-secondary" closeButton>
@@ -16,7 +16,7 @@ function ArchiveModal({show, close, title}) {
             </form>
         </Modal.Body>
         <Modal.Footer className="bg-secondary">
-            <Button variant="danger" onClick={close}>
+            <Button variant="danger" onClick={handleArchive}>
                 Confirm
             </Button>
             <Button variant="dark" onClick={close}>

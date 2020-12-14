@@ -5,6 +5,7 @@ import CreateModal from "./modals/CreateModal";
 import Note from "./Note";
 import DeleteModal from "./modals/DeleteModal";
 import ArchiveModal from "./modals/ArchiveModal";
+import ArchiveService from "../service/ArchiveService";
 
 class NoteList extends Component {
     constructor(props) {
@@ -21,6 +22,10 @@ class NoteList extends Component {
         this.refreshList = this.refreshList.bind(this);
         this.delete = this.delete.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.createNote = this.createNote.bind(this);
+        this.handleCreate = this.handleCreate.bind(this);
+        this.archive = this.archive.bind(this);
+        this.handleArchive = this.handleArchive.bind(this);
 
         this.state = {
             notes:  [],
@@ -36,6 +41,10 @@ class NoteList extends Component {
         this.getNotes();
     }
 
+    refreshList() {
+        this.getNotes();
+    }
+
     createNote(title) {
         let newNote = {
             id: null,
@@ -45,6 +54,8 @@ class NoteList extends Component {
             updatedAt: ""
         }
 
+        console.log(newNote);
+
         NoteService
             .create(newNote)
             .catch(e => {
@@ -52,8 +63,12 @@ class NoteList extends Component {
             });
     }
 
-    refreshList() {
-        this.getNotes();
+    handleCreate(title) {
+        if(title) {
+            this.createNote(title);
+            this.closeCreateModal();
+            this.refreshList();
+        }
     }
 
     delete(id) {
@@ -67,9 +82,31 @@ class NoteList extends Component {
             })
     }
 
+    archive(id) {
+        let archivedNote = {
+            title: this.state.currentNote.title
+        };
+        console.log("Archived");
+        console.log(archivedNote);
+        this.delete(id);
+        ArchiveService
+            .create(archivedNote)
+            .then(() => {
+                this.refreshList();
+            })
+            .catch(e => {
+                console.log(e);
+            })
+    }
+
     handleDelete() {
         this.delete(this.state.currentNote.id);
         this.closeDeleteModal();
+    }
+
+    handleArchive() {
+        this.archive(this.state.currentNote.id);
+        this.closeArchiveModal();
     }
 
     showCreateModal() {
@@ -135,8 +172,11 @@ class NoteList extends Component {
                             borderColor: "#000000",
                             borderRadius: "10px",
                         }}>
-                            <CreateModal close={this.closeCreateModal} show={this.state.showCreateModal} handleCreate={this.createNote}/>
-                            <ArchiveModal close={this.closeArchiveModal} show={this.state.showArchiveModal} title={this.state.currentNote ? (this.state.currentNote.title) : ("")}/>
+                            <CreateModal close={this.closeCreateModal} show={this.state.showCreateModal} handleCreate={this.handleCreate}/>
+                            <ArchiveModal close={this.closeArchiveModal} show={this.state.showArchiveModal}
+                                          title={this.state.currentNote ? (this.state.currentNote.title) : ("")}
+                                          handleArchive={this.handleArchive}
+                            />
                             <DeleteModal close={this.closeDeleteModal} show={this.state.showDeleteModal}
                                          title={this.state.currentNote ? (this.state.currentNote.title) : ("")}
                                          handleDelete={this.handleDelete}
@@ -144,7 +184,7 @@ class NoteList extends Component {
                             <ul className="list-group">
                                 <button type="button" className="btn btn-lg btn-info btn-block" onClick={this.showCreateModal}>+</button>
                                 {this.state.notes.map((note, index) => (
-                                        <button type="button" className="btn btn-secondary btn-block"
+                                        <button type="button" className="btn btn-secondary btn-block key" key={note.id}
                                                 onClick={() => this.setActiveNote(note, index)}>
                                             {note.title}
                                             <button type="button" className="btn-sm btn-secondary float-right" onClick={() => this.showArchiveModal()}>

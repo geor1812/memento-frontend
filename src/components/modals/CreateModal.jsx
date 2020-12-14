@@ -3,7 +3,11 @@ import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 
 function CreateModal({show, close, handleCreate}) {
-    const [title, setTitle] = useState("");
+    //needs to be fixed
+    let title = "";
+    let onChangeTitle = e => {
+        title = e.target.value;
+    }
 
     return (<Modal show={show} onHide={close}>
         <Modal.Header className="bg-secondary" closeButton>
@@ -13,13 +17,13 @@ function CreateModal({show, close, handleCreate}) {
             <form>
                 <div className="form-group">
                     <label htmlFor="title" className="col-form-label text-light">Title:</label>
-                    <input type="text" className="form-control bg-dark text-light" id="title" value={title} onChange={e => setTitle(e.target.value)} />
+                    <input type="text" className="form-control bg-dark text-light" id="title" value={title} onChange={onChangeTitle} />
                 </div>
             </form>
         </Modal.Body>
         <Modal.Footer className="bg-secondary text-left">
             <p className="float-left text-light">Type:</p>
-            <Button variant="danger" className="float-left" onClick={close}>
+            <Button variant="danger" className="float-left" onClick={console.log(title)}>
                 Note
             </Button>
             <Button variant="warning" className="float-left" onClick={close}>
