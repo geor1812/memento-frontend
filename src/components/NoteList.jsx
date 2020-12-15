@@ -63,12 +63,10 @@ class NoteList extends Component {
             });
     }
 
-    handleCreate(title) {
-        if(title) {
-            this.createNote(title);
-            this.closeCreateModal();
-            this.refreshList();
-        }
+   handleCreate(title) {
+        this.createNote(title);
+        this.closeCreateModal();
+        this.refreshList();
     }
 
     delete(id) {
@@ -164,15 +162,18 @@ class NoteList extends Component {
 
     render() {
         return(
-            <div className="container-fluid h-100 bg-secondary">
-                <div className="row h-100">
+            <div className="container-fluid overflow-hidden bg-secondary">
+                <div className="row overflow-hidden" style={{
+                    height: "750px",
+                }}>
                     <div className="col-sm-4 h-100">
-                        <div className="container bg-dark py-sm-2 h-100 my-3 overflow-auto " style={{
+                        <div className="container bg-dark py-sm-2 h-100 my-3" style={{
                             borderStyle: "solid",
                             borderColor: "#000000",
                             borderRadius: "10px",
+                            overflowY: "scroll"
                         }}>
-                            <CreateModal close={this.closeCreateModal} show={this.state.showCreateModal} handleCreate={this.handleCreate}/>
+                            <CreateModal close={this.closeCreateModal} show={this.state.showCreateModal} handleNoteCreate={this.handleCreate}/>
                             <ArchiveModal close={this.closeArchiveModal} show={this.state.showArchiveModal}
                                           title={this.state.currentNote ? (this.state.currentNote.title) : ("")}
                                           handleArchive={this.handleArchive}
@@ -187,11 +188,11 @@ class NoteList extends Component {
                                         <button type="button" className="btn btn-secondary btn-block key" key={note.id}
                                                 onClick={() => this.setActiveNote(note, index)}>
                                             {note.title}
-                                            <button type="button" className="btn-sm btn-secondary float-right" onClick={() => this.showArchiveModal()}>
-                                                A
-                                            </button>
                                             <button type="button" className="btn-sm btn-secondary float-right" onClick={() => this.showDeleteModal()}>
                                                 x
+                                            </button>
+                                            <button type="button" className="btn-sm btn-secondary float-right" onClick={() => this.showArchiveModal()}>
+                                                A
                                             </button>
                                         </button>
                                 ))}
