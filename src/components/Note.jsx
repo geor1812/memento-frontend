@@ -91,7 +91,7 @@ class Note extends Component {
                             <div className="row m-3 bg-dark p-1" style={{
                                 borderStyle: "hidden",
                                 borderColor: "#000000",
-                                borderRadius: "10px",
+                                borderRadius: "5px",
                                 borderWidth: "2px",
                             }}>
                                 <div className="col-md-12">
@@ -136,7 +136,7 @@ class Note extends Component {
                                             borderStyle: "solid",
                                             borderColor: "#000000",
                                             borderWidth: "2px",
-                                            borderRadius: "10px"
+                                            borderRadius: "5px"
                                         }} id="content" rows="19" onChange={this.onChangeContent} value={this.state.content ? (this.state.content) : ("")}/>
                                     </div>
                                 </form>
@@ -146,7 +146,7 @@ class Note extends Component {
                 </div>
                 ):(
                     <div className="d-flex justify-content-center">
-                        <h3 className="text-light">Select a note to get started</h3>
+                        <h4 className="text-light">Select a note to get started</h4>
                     </div>
                 )}
 

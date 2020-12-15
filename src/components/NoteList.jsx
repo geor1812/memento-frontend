@@ -26,6 +26,8 @@ class NoteList extends Component {
         this.handleCreate = this.handleCreate.bind(this);
         this.archive = this.archive.bind(this);
         this.handleArchive = this.handleArchive.bind(this);
+        this.onChangeSearchTerm = this.onChangeSearchTerm.bind(this);
+        this.search = this.search.bind(this);
 
         this.state = {
             notes:  [],
@@ -33,7 +35,8 @@ class NoteList extends Component {
             currentIndex: -1,
             showCreateModal: false,
             showDeleteModal: false,
-            showArchiveModal: false
+            showArchiveModal: false,
+            searchTerm: ""
         }
     }
 
@@ -139,6 +142,13 @@ class NoteList extends Component {
         })
     }
 
+    async onChangeSearchTerm(e) {
+        await this.setState({
+            searchTerm: e.target.value
+        })
+        this.search(this.searchTerm);
+    }
+
     getNotes() {
         NoteService
             .getAll()
@@ -160,6 +170,19 @@ class NoteList extends Component {
         })
     }
 
+    search() {
+        NoteService
+            .getWithSearch(this.state.searchTerm)
+            .then((response)=>{
+                this.setState({
+                    notes: response.data
+                })
+            })
+            .catch(e => {
+                console.log(e);
+            })
+    }
+
     render() {
         return(
             <div className="container-fluid overflow-hidden bg-secondary">
@@ -170,7 +193,7 @@ class NoteList extends Component {
                         <div className="container bg-dark py-sm-2 h-100 my-3" style={{
                             borderStyle: "solid",
                             borderColor: "#000000",
-                            borderRadius: "10px",
+                            borderRadius: "5px",
                             overflowY: "scroll"
                         }}>
                             <CreateModal close={this.closeCreateModal} show={this.state.showCreateModal} handleNoteCreate={this.handleCreate}/>
@@ -183,6 +206,14 @@ class NoteList extends Component {
                                          handleDelete={this.handleDelete}
                             />
                             <ul className="list-group">
+                                <form className="form p-sm-2 bg-secondary mb-sm-2" onSubmit={(e => e.preventDefault())}
+                                      style={{
+                                    borderStyle: "solid",
+                                    borderColor: "#000000",
+                                    borderRadius: "5px"}}>
+                                        <input type="text" className="form-control btn-outline-danger text-light bg-dark mr-sm-2"
+                                               value={this.state.searchTerm} placeholder="Search..." onChange={this.onChangeSearchTerm}/>
+                                </form>
                                 <button type="button" className="btn btn-lg btn-info btn-block" onClick={this.showCreateModal}>+</button>
                                 {this.state.notes.map((note, index) => (
                                         <button type="button" className="btn btn-secondary btn-block key" key={note.id}

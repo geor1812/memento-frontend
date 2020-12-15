@@ -5,6 +5,10 @@ class NoteService {
         return http.get("/notes");
     }
 
+    getWithSearch(searchTerm) {
+        return http.get("/notes?searchTerm=" + searchTerm)
+    }
+
     getById(id) {
         return http.get(`/notes/${id}`);
     }
