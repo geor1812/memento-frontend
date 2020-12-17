@@ -23,7 +23,7 @@ class NoteList extends Component {
         this.delete = this.delete.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.createNote = this.createNote.bind(this);
-        this.handleCreate = this.handleCreate.bind(this);
+        this.handleNoteCreate = this.handleNoteCreate.bind(this);
         this.archive = this.archive.bind(this);
         this.handleArchive = this.handleArchive.bind(this);
         this.onChangeSearchTerm = this.onChangeSearchTerm.bind(this);
@@ -48,28 +48,35 @@ class NoteList extends Component {
         this.getNotes();
     }
 
-    createNote(title) {
+    createNote(title, checklist) {
         let newNote = {
             id: null,
             title: title,
             content: "",
             createdAt: "",
-            updatedAt: ""
+            updatedAt: "",
+            checklist : checklist
         }
 
         console.log(newNote);
 
         NoteService
             .create(newNote)
+            .then(()=>{
+                this.refreshList()
+            })
             .catch(e => {
                 console.log(e)
             });
     }
 
-   handleCreate(title) {
-        this.createNote(title);
+    handleNoteCreate(title, checklist) {
         this.closeCreateModal();
-        this.refreshList();
+        this.createNote(title, checklist);
+        this.setState({
+            currentNote: null,
+            currentIndex: -1
+        })
     }
 
     delete(id) {
@@ -101,8 +108,12 @@ class NoteList extends Component {
     }
 
     handleDelete() {
-        this.delete(this.state.currentNote.id);
         this.closeDeleteModal();
+        this.delete(this.state.currentNote.id);
+        this.setState({
+            currentNote: null,
+            currentIndex: -1
+        })
     }
 
     handleArchive() {
@@ -196,7 +207,8 @@ class NoteList extends Component {
                             borderRadius: "5px",
                             overflowY: "scroll"
                         }}>
-                            <CreateModal close={this.closeCreateModal} show={this.state.showCreateModal} handleNoteCreate={this.handleCreate}/>
+                            <CreateModal close={this.closeCreateModal} show={this.state.showCreateModal}
+                                         handleNoteCreate={this.handleNoteCreate}/>
                             <ArchiveModal close={this.closeArchiveModal} show={this.state.showArchiveModal}
                                           title={this.state.currentNote ? (this.state.currentNote.title) : ("")}
                                           handleArchive={this.handleArchive}
@@ -216,7 +228,7 @@ class NoteList extends Component {
                                 </form>
                                 <button type="button" className="btn btn-lg btn-info btn-block" onClick={this.showCreateModal}>+</button>
                                 {this.state.notes.map((note, index) => (
-                                        <button type="button" className="btn btn-secondary btn-block key" key={note.id}
+                                        <li type="button" className="btn btn-secondary btn-block key" key={note.id}
                                                 onClick={() => this.setActiveNote(note, index)}>
                                             {note.title}
                                             <button type="button" className="btn-sm btn-secondary float-right" onClick={() => this.showDeleteModal()}>
@@ -225,7 +237,7 @@ class NoteList extends Component {
                                             <button type="button" className="btn-sm btn-secondary float-right" onClick={() => this.showArchiveModal()}>
                                                 A
                                             </button>
-                                        </button>
+                                        </li>
                                 ))}
                             </ul>
                         </div>

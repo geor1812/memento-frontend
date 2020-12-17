@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import NoteService from "../service/NoteService";
+import Checklist from "./Checklist";
 
 class Note extends Component {
     constructor(props) {
@@ -14,7 +15,9 @@ class Note extends Component {
             content: "",
             createdAt: "",
             updatedAt: "",
-            active: false,
+            checklist: false,
+            items : [],
+            active: false
         }
     }
 
@@ -36,7 +39,9 @@ class Note extends Component {
                     title: response.data.title,
                     content: response.data.content,
                     createdAt: response.data.createdAt.slice(0,10),
-                    updatedAt: response.data.updatedAt.slice(0,10)
+                    updatedAt: response.data.updatedAt.slice(0,10),
+                    checklist: response.data.checklist,
+                    items: response.data.itemsById
                 })
                 console.log("Loaded note: ")
                 console.log(response)
@@ -52,7 +57,9 @@ class Note extends Component {
             title: this.state.title,
             content: this.state.content,
             createdAt: this.state.createdAt,
-            updatedAt: this.state.updatedAt
+            updatedAt: this.state.updatedAt,
+            checklist: this.state.checklist,
+            items: this.state.items
         }
 
         NoteService
@@ -109,7 +116,7 @@ class Note extends Component {
                                             <div className="row">
                                                 <div className="col-sm text-light">
                                                     <p className="mb-0">Type:</p>
-                                                    <i>--Coming Soon--</i>
+                                                    <i>{this.state.checklist ? ("Checklist"):("Note")}</i>
                                                 </div>
                                                 <div className="col-sm text-light">
                                                     <p className="mb-0">Created on: </p>
@@ -129,7 +136,7 @@ class Note extends Component {
                     <div className="container bg-secondary p-sm-3 mb-sm-3">
                         <div className="row">
                             <div className="col-md-12">
-                                <form>
+                                {this.state.checklist ? (<Checklist items={this.state.items}/>):(<form>
                                     <div className="form-group">
                                         <label htmlFor="content" className="sr-only">Content</label>
                                         <textarea className="form-control bg-dark text-light" style={{
@@ -139,7 +146,7 @@ class Note extends Component {
                                             borderRadius: "5px"
                                         }} id="content" rows="19" onChange={this.onChangeContent} value={this.state.content ? (this.state.content) : ("")}/>
                                     </div>
-                                </form>
+                                </form>)}
                             </div>
                         </div>
                     </div>
