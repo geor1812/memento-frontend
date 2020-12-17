@@ -8,6 +8,8 @@ class Note extends Component {
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeContent = this.onChangeContent.bind(this);
         this.getNote = this.getNote.bind(this);
+        this.itemChangeCallback = this.itemChangeCallback.bind(this);
+        this.updateNote = this.updateNote.bind(this);
 
         this.state = {
             id : -1,
@@ -41,7 +43,7 @@ class Note extends Component {
                     createdAt: response.data.createdAt.slice(0,10),
                     updatedAt: response.data.updatedAt.slice(0,10),
                     checklist: response.data.checklist,
-                    items: response.data.itemsById
+                    items: response.data.items
                 })
                 console.log("Loaded note: ")
                 console.log(response)
@@ -80,8 +82,15 @@ class Note extends Component {
     async onChangeContent(e) {
         await this.setState({
             content: e.target.value
-        })
+        });
         this.updateNote()
+    }
+
+    async itemChangeCallback(items) {
+       await this.setState({
+            items: items
+        });
+        this.updateNote();
     }
 
     render() {
@@ -136,7 +145,7 @@ class Note extends Component {
                     <div className="container bg-secondary p-sm-3 mb-sm-3">
                         <div className="row">
                             <div className="col-md-12">
-                                {this.state.checklist ? (<Checklist items={this.state.items}/>):(<form>
+                                {this.state.checklist ? (<Checklist items={this.state.items} itemChange={this.itemChangeCallback}/>):(<form>
                                     <div className="form-group">
                                         <label htmlFor="content" className="sr-only">Content</label>
                                         <textarea className="form-control bg-dark text-light" style={{
