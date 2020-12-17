@@ -55,7 +55,8 @@ class NoteList extends Component {
             content: "",
             createdAt: "",
             updatedAt: "",
-            checklist : checklist
+            checklist : checklist,
+            items: []
         }
 
         console.log(newNote);

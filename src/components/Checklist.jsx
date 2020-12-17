@@ -4,8 +4,17 @@ class Checklist extends Component {
     constructor(props) {
         super(props);
         this.onChangeItemContent = this.onChangeItemContent.bind(this);
+        this.addItem = this.addItem.bind(this);
         this.state = {
             items: this.props.items,
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevState.items !== this.props.items) {
+            this.setState({
+                items: this.props.items
+            })
         }
     }
 
@@ -27,9 +36,24 @@ class Checklist extends Component {
         this.props.itemChange(this.state.items);
     }
 
+     addItem() {
+        let newItem = {
+            content: "",
+            checked: false,
+        }
+        let newItems = this.state.items;
+        newItems.push(newItem);
+        this.setState({
+            items: newItems
+        })
+    }
+
     render() {
         return(
             <div className="container bg-secondary">
+                <div className="container w-50 text-center">
+                    <button type="button" className="btn btn-dark btn-block mb-1" onClick={this.addItem}>Add a list item</button>
+                </div>
                 <ul className="p-0">
                     {this.state.items.map((item, index)=>(
                         <li className="list-group-item bg-dark">
