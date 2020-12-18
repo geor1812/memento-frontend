@@ -10,7 +10,7 @@ class Checklist extends Component {
         this.deleteItem = this.deleteItem.bind(this);
 
         this.state = {
-            items: this.props.items,
+            items: this.props.items.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
         }
     }
 
