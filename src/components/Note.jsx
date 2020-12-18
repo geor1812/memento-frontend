@@ -10,6 +10,7 @@ class Note extends Component {
         this.getNote = this.getNote.bind(this);
         this.itemChangeCallback = this.itemChangeCallback.bind(this);
         this.updateNote = this.updateNote.bind(this);
+        this.refresh = this.refresh.bind(this);
 
         this.state = {
             id : -1,
@@ -93,6 +94,10 @@ class Note extends Component {
         this.updateNote();
     }
 
+    refresh() {
+        this.getNote(this.props.noteData.id);
+    }
+
     render() {
         return(
             <div className="container my-3 bg-dark" style={{
@@ -145,7 +150,8 @@ class Note extends Component {
                     <div className="container bg-secondary p-sm-3 mb-sm-3">
                         <div className="row">
                             <div className="col-md-12">
-                                {this.state.checklist ? (<Checklist items={this.state.items} noteId={this.state.id} itemChange={this.itemChangeCallback}/>):(<form>
+                                {this.state.checklist ? (<Checklist items={this.state.items} noteId={this.state.id}
+                                                                    refresh={this.refresh} itemChange={this.itemChangeCallback}/>):(<form>
                                     <div className="form-group">
                                         <label htmlFor="content" className="sr-only">Content</label>
                                         <textarea className="form-control bg-dark text-light" style={{

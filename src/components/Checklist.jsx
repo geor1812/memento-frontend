@@ -3,9 +3,12 @@ import NoteService from "../service/NoteService";
 class Checklist extends Component {
     constructor(props) {
         super(props);
+
         this.onChangeItemContent = this.onChangeItemContent.bind(this);
         this.addItem = this.addItem.bind(this);
         this.createItem = this.createItem.bind(this);
+        this.deleteItem = this.deleteItem.bind(this);
+
         this.state = {
             items: this.props.items,
         }
@@ -61,6 +64,15 @@ class Checklist extends Component {
             })
     }
 
+    deleteItem(id) {
+        NoteService
+            .deleteItem(id)
+            .then(this.props.refresh)
+            .catch(e =>{
+                console.log(e);
+            })
+    }
+
     render() {
         return(
             <div className="container bg-secondary">
@@ -70,12 +82,16 @@ class Checklist extends Component {
                 <ul className="p-0">
                     {this.state.items.map((item, index)=>(
                         <li className="list-group-item bg-dark">
-                            <div className="form-check">
+                            <div className="form-check d-flex">
                                 <input type="checkbox" className="form-check-input "
                                        checked={item.checked ? ("checked"):("")}
                                        onChange={() => this.onChangeChecked(index)}/>
                                 <input type="text" contentEditable="true" className="form-control-plaintext bg-dark text-light p-0"
                                         value={item.content} onChange={(e)=>this.onChangeItemContent(index,e)}/>
+                                <button type="button" className="float-right btn btn-sm btn-secondary ml-1"
+                                        onClick={() => this.deleteItem(item.id)}>
+                                    x
+                                </button>
                             </div>
                         </li>
                     ))}

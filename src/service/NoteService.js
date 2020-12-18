@@ -37,6 +37,11 @@ class NoteService {
         return http
             .post(`/notes/${noteId}/items`, data);
     }
+
+    deleteItem(id) {
+        return http
+            .delete(`/items/${id}`);
+    }
 }
 
 export default new NoteService();
