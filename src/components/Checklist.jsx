@@ -1,10 +1,11 @@
 import React, {Component} from "react";
-
+import NoteService from "../service/NoteService";
 class Checklist extends Component {
     constructor(props) {
         super(props);
         this.onChangeItemContent = this.onChangeItemContent.bind(this);
         this.addItem = this.addItem.bind(this);
+        this.createItem = this.createItem.bind(this);
         this.state = {
             items: this.props.items,
         }
@@ -41,11 +42,23 @@ class Checklist extends Component {
             content: "",
             checked: false,
         }
-        let newItems = this.state.items;
-        newItems.push(newItem);
-        this.setState({
-            items: newItems
-        })
+
+        this.createItem(newItem);
+    }
+
+    createItem(data) {
+        NoteService
+            .createItem(this.props.noteId, data)
+            .then((response)=>{
+                let newItems = this.state.items;
+                newItems.push(response.data);
+                this.setState({
+                    items: newItems
+                });
+            })
+            .catch(e=>{
+                console.log(e);
+            })
     }
 
     render() {

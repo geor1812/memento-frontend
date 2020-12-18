@@ -145,7 +145,7 @@ class Note extends Component {
                     <div className="container bg-secondary p-sm-3 mb-sm-3">
                         <div className="row">
                             <div className="col-md-12">
-                                {this.state.checklist ? (<Checklist items={this.state.items} itemChange={this.itemChangeCallback}/>):(<form>
+                                {this.state.checklist ? (<Checklist items={this.state.items} noteId={this.state.id} itemChange={this.itemChangeCallback}/>):(<form>
                                     <div className="form-group">
                                         <label htmlFor="content" className="sr-only">Content</label>
                                         <textarea className="form-control bg-dark text-light" style={{

@@ -32,6 +32,11 @@ class NoteService {
                 console.log(e);
             });
     }
+
+    createItem(noteId, data) {
+        return http
+            .post(`/notes/${noteId}/items`, data);
+    }
 }
 
 export default new NoteService();
