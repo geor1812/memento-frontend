@@ -7,7 +7,7 @@ import DeleteModal from "./modals/DeleteModal";
 import ArchiveModal from "./modals/ArchiveModal";
 import ArchiveService from "../service/ArchiveService";
 import FolderService from "../service/FolderService";
-
+import { withRouter  } from "react-router";
 class NoteList extends Component {
     constructor(props) {
         super(props);
@@ -31,6 +31,7 @@ class NoteList extends Component {
         this.search = this.search.bind(this);
 
         this.state = {
+            folderId: this.props.match.params.folderId,
             notes:  [],
             currentNote: null,
             currentIndex: -1,
@@ -63,7 +64,7 @@ class NoteList extends Component {
         console.log(newNote);
 
         NoteService
-            .create(1, newNote)
+            .create(this.state.folderId, newNote)
             .then(()=>{
                 this.refreshList()
             })
@@ -255,4 +256,4 @@ class NoteList extends Component {
 }
 
 
-export default NoteList;
+export default withRouter(NoteList);
