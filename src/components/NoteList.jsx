@@ -6,6 +6,7 @@ import Note from "./Note";
 import DeleteModal from "./modals/DeleteModal";
 import ArchiveModal from "./modals/ArchiveModal";
 import ArchiveService from "../service/ArchiveService";
+import FolderService from "../service/FolderService";
 
 class NoteList extends Component {
     constructor(props) {
@@ -62,7 +63,7 @@ class NoteList extends Component {
         console.log(newNote);
 
         NoteService
-            .create(newNote)
+            .create(1, newNote)
             .then(()=>{
                 this.refreshList()
             })

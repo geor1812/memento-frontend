@@ -13,9 +13,8 @@ class NoteService {
         return http.get(`/notes/${id}`);
     }
 
-    create(data) {
-        return http
-            .post("/notes", data);
+    create(folderId, data) {
+        return http.post(`/notes/create/${folderId}`, data);
     }
 
     update(id, data) {
