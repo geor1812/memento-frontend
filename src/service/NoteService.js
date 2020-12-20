@@ -1,8 +1,8 @@
 import http from "../http-common";
 import ArchiveService from "./ArchiveService";
 class NoteService {
-    getAll() {
-        return http.get("/notes");
+    getAll(folderId) {
+        return http.get("/notes/folder/" + folderId);
     }
 
     getWithSearch(searchTerm) {
@@ -13,9 +13,8 @@ class NoteService {
         return http.get(`/notes/${id}`);
     }
 
-    create(data) {
-        return http
-            .post("/notes", data);
+    create(folderId, data) {
+        return http.post(`/notes/create/${folderId}`, data);
     }
 
     update(id, data) {
