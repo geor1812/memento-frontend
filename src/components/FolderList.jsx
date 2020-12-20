@@ -30,7 +30,7 @@ class FolderList extends Component {
 
     render() {
         return(
-            <div className="container">
+            <div className="container p-2">
                 <div className="container mt-5 w-25">
                     <button className="btn btn-danger btn-lg btn-block">+</button>
                 </div>

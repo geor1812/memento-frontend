@@ -164,8 +164,9 @@ class NoteList extends Component {
     }
 
     getNotes() {
+        let folderId = this.props.match.params.folderId;
         NoteService
-            .getAll()
+            .getAll(folderId)
             .then((response)=>{
                 this.setState({
                     notes: response.data
@@ -230,7 +231,7 @@ class NoteList extends Component {
                                                value={this.state.searchTerm} placeholder="Search..." onChange={this.onChangeSearchTerm}/>
                                 </form>
                                 <button type="button" className="btn btn-lg btn-info btn-block" onClick={this.showCreateModal}>+</button>
-                                {this.state.notes.map((note, index) => (
+                                {this.state.notes && this.state.notes.map((note, index) => (
                                         <li type="button" className="btn btn-secondary btn-block key" key={note.id}
                                                 onClick={() => this.setActiveNote(note, index)}>
                                             {note.title}
