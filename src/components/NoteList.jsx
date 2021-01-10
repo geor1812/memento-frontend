@@ -187,7 +187,7 @@ class NoteList extends Component {
 
     search() {
         NoteService
-            .getWithSearch(this.state.searchTerm)
+            .getWithSearch(this.state.folderId, this.state.searchTerm)
             .then((response)=>{
                 this.setState({
                     notes: response.data

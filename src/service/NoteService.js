@@ -5,8 +5,8 @@ class NoteService {
         return http.get("/notes/folder/" + folderId);
     }
 
-    getWithSearch(searchTerm) {
-        return http.get("/notes?searchTerm=" + searchTerm)
+    getWithSearch(folderId, searchTerm) {
+        return http.get(`/notes/folder/${folderId}?searchTerm=${searchTerm}`)
     }
 
     getById(id) {
